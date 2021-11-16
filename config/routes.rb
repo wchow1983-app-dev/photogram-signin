@@ -10,6 +10,15 @@ Rails.application.routes.draw do
   # SIGN-UP
   get("/user_sign_up", {:controller => "users", :action => "new_registration_form" })
 
+  # SIGN-OUT
+  get("/user_sign_out", {:controller => "users", :action => "close_cookies" })  
+
+  # SIGN-IN
+  get("/user_sign_in", {:controller => "users", :action => "new_session_form" })  
+
+  #VERIFY CREDENTIALS
+  get("/verify_credentials", {:controller => "users", :action => "authenticate" })    
+
   # READ
   get("/users", {:controller => "users", :action => "index"})
   get("/users/:the_username", {:controller => "users", :action => "show"})

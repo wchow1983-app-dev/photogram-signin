@@ -22,7 +22,12 @@ class UsersController < ApplicationController
     #user.save
     save_status = user.save
 
+    #if the new user was saved (line 23), they should have been assigned a user ID which we can then use here. We can store 
+    #them here which keeps them signed in.
+
     if save_status == true
+      session.store(:user_id, user.id) 
+
       redirect_to("/users/#{user.username}", { :notice => "Welcome, " + user.username + "!" })
     else
       redirect_to("/user_sign_up", { :alert => user.errors.full_messages.to_sentence })
@@ -32,7 +37,6 @@ class UsersController < ApplicationController
   def update
     the_id = params.fetch("the_user_id")
     user = User.where({ :id => the_id }).at(0)
-
 
     user.username = params.fetch("input_username")
 
@@ -52,6 +56,24 @@ class UsersController < ApplicationController
 
   def new_registration_form
 
-    render({:template => "users/signup_form.html.erb"})
+    render({:template => "users/sign_up_form.html.erb"})
+  end
+
+  def close_cookies
+    reset_session
+
+    redirect_to("/", { :notice => "See ya later!"})
+  end
+
+  def new_session_form
+
+    #user.username = params.fetch("input_username")
+    #user.password = params.fetch("input_password")
+
+    render({:template => "users/sign_in_form.html.erb"})
+  end
+
+  def authenticate
+    render({:plain => "hi"})    
   end
 end

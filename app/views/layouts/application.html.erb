@@ -19,10 +19,19 @@
         <nav>
       <ul>
         <li>
-          <a href="/user_sign_up">Sign Up</a>
+          <% user = User.where({ :id => session.fetch(:user_id)}).first %>
+          <% if session.fetch(:user_id) != nil %>
+            <a href="/users/<%= user.username %>"><%= user.username %></a>
+          <% else %>
+            <a href="/user_sign_in">Sign In</a>
+          <% end %>
         </li>   
         <li>
-          <a href="/user_sign_out">Sign Out</a>
+          <% if session.fetch(:user_id) != nil %>
+            <a href="/user_sign_out">Sign Out</a>
+          <% else %>
+            <a href="/user_sign_up">Sign Up</a>
+          <% end %>
         </li>
         <li>
           <a href="/users">Users</a>
@@ -51,3 +60,5 @@
     <%= yield %>
   </body>
 </html>
+
+

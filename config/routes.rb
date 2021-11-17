@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   get("/user_sign_in", {:controller => "users", :action => "new_session_form" })  
 
   #VERIFY CREDENTIALS
-  get("/verify_credentials", {:controller => "users", :action => "authenticate" })    
-
+  #get("/verify_credentials", {:controller => "users", :action => "authenticate" })    
+  post("/verify_credentials", {:controller => "users", :action => "authenticate" })   
+  
   # READ
   get("/users", {:controller => "users", :action => "index"})
   get("/users/:the_username", {:controller => "users", :action => "show"})

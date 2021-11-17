@@ -67,13 +67,28 @@ class UsersController < ApplicationController
 
   def new_session_form
 
-    #user.username = params.fetch("input_username")
-    #user.password = params.fetch("input_password")
-
     render({:template => "users/sign_in_form.html.erb"})
   end
 
   def authenticate
-    render({:plain => "hi"})    
+
+    username = params.fetch("input_username")
+    password = params.fetch("input_password")
+
+    user = User.where({:username => username}).first
+
+    if user == nil
+      redirect_to("/user_sign_in", { :alert => "No one by that name 'round these parts"})
+  
+    else
+      if user.authenticate(password)
+        session.store(:user_id, user.id) 
+
+        redirect_to("/", { :notice => "Welcome back, " + user.username + "!"})
+      else
+        redirect_to("/user_sign_in", { :alert => "Nice try, sucker!" })
+      end
+    end
   end
+
 end
